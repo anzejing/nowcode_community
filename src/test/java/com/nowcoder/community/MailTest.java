@@ -4,6 +4,7 @@ import com.nowcoder.community.util.MailClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,6 +23,11 @@ public class MailTest {
     @Autowired
     private TemplateEngine templateEngine;
 
+    @Value("${community.path.domain}")
+    private String domain;
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
+
     @Test
     public void testMail(){
         mailClient.sendMail("870872819@qq.com","test","welcome!");
@@ -29,11 +35,11 @@ public class MailTest {
     @Test
     public void testHtmlMail(){
         Context context = new Context();
-        context.setVariable("username","llh");
 
-        String content = templateEngine.process("/mail/demo",context);
-        System.out.println(content);
-
-        mailClient.sendMail("870872819@qq.com","html", content);
+        context.setVariable("email","870872819@qq.com");
+        String url = domain+contextPath+"/index";
+        context.setVariable("url",url);
+        String content = templateEngine.process("/mail/activation",context);
+        mailClient.sendMail("liulh01@outlook.com","激活账号",content);
     }
 }
