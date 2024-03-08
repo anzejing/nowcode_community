@@ -1,9 +1,0 @@
-2024-03-05T21:27:14.723+08:00  INFO 65008 --- [main] com.nowcoder.community.LoggerTests       : Starting LoggerTests using Java 21.0.2 with PID 65008 (started by lanyone in D:\4projects\community)
-2024-03-05T21:27:14.724+08:00 DEBUG 65008 --- [main] com.nowcoder.community.LoggerTests       : Running with Spring Boot v3.2.3, Spring v6.1.4
-2024-03-05T21:27:14.725+08:00  INFO 65008 --- [main] com.nowcoder.community.LoggerTests       : No active profile set, falling back to 1 default profile: "default"
-2024-03-05T21:27:16.153+08:00  INFO 65008 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
-2024-03-05T21:27:16.934+08:00  INFO 65008 --- [main] com.nowcoder.community.LoggerTests       : Started LoggerTests in 2.47 seconds (process running for 3.055)
-2024-03-05T21:27:17.699+08:00 DEBUG 65008 --- [main] com.nowcoder.community.LoggerTests       : debug log
-2024-03-05T21:27:17.700+08:00  INFO 65008 --- [main] com.nowcoder.community.LoggerTests       : debug info
-2024-03-05T21:27:17.700+08:00  WARN 65008 --- [main] com.nowcoder.community.LoggerTests       : debug warn
-2024-03-05T21:27:17.700+08:00 ERROR 65008 --- [main] com.nowcoder.community.LoggerTests       : debug error
