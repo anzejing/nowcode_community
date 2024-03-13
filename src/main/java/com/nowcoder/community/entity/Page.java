@@ -1,15 +1,23 @@
 package com.nowcoder.community.entity;
-/*
-封装分页相关信息
+/**
+ * 封装分页相关信息
  */
 public class Page {
-    //当前页码
+    /**
+     * 当前页码
+     */
     private int current = 1;
-    //显示上限
+    /**
+     * 显示上限
+     */
     private int limit = 10;
-    //数据总数
+    /**
+     * 数据总数
+     */
     private int rows;
-    //查询路径
+    /**
+     * 查询路径
+     */
     private String path;
 
     public int getCurrent() {
@@ -46,21 +54,29 @@ public class Page {
     public void setPath(String path) {
         this.path = path;
     }
-    //获取当前页的起始行
+    /**
+     * 获取当前页的起始行
+     */
     public int getOffset(){
         return (current-1)*limit;
     }
-    //获取总的页数
+    /**
+     * 获取总的页数
+     */
     public int getTotal(){
         if(rows%limit==0)return rows/limit;
         else return rows/limit+1;
     }
-    //获取起始页
+    /**
+     * 获取起始页
+     */
     public int getFrom(){
         int from = current-2;
         return Math.max(from, 1);
     }
-    //获取结束页
+    /**
+     * 获取结束页
+     */
     public int getTo(){
         int to = current+2;
         int total = getTotal();
