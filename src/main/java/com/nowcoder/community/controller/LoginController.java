@@ -9,13 +9,13 @@ import com.nowcoder.community.util.RedisKeyUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
-import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -49,7 +49,7 @@ public class LoginController implements CommunityConstant {
         return "/site/login";
     }
     @Value("${server.servlet.context-path}")
-    private String cpntextPath;
+    private String contextPath;
 
 
 
@@ -98,10 +98,10 @@ public class LoginController implements CommunityConstant {
         String kaptchaOwner= CommunityUtil.generateUUID();
         Cookie cookie=new Cookie("kaptchaOwner",kaptchaOwner);
         cookie.setMaxAge(60);
-        cookie.setPath(cpntextPath);
+        cookie.setPath(contextPath);
         response.addCookie(cookie);
         //验证码存入redis
-        String redisKey = RedisKeyUtil.getKapthaKey(kaptchaOwner);
+        String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
         redisTemplate.opsForValue().set(redisKey,text,60, TimeUnit.SECONDS);
 
         //图片输出到浏览器
@@ -115,14 +115,14 @@ public class LoginController implements CommunityConstant {
 
 
     }
-    @RequestMapping(path = "/login",method = RequestMethod.POST)
+//    @RequestMapping(path = "/login",method = RequestMethod.POST)
     public String login(String username,String password,String code,boolean rememberme,
                         Model model/*,HttpSession session*/,HttpServletResponse response,
                         @CookieValue("kaptchaOwner") String kaptchaOwner){
         //String kaptcha = (String) session.getAttribute("kaptcha");
         String kaptcha=null;
         if(StringUtils.isNotBlank(kaptchaOwner)){
-            String redisKey = RedisKeyUtil.getKapthaKey(kaptchaOwner);
+            String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
             kaptcha = (String) redisTemplate.opsForValue().get(redisKey);
         }
 
@@ -136,7 +136,7 @@ public class LoginController implements CommunityConstant {
         Map<String,Object> map= userService.login(username,password,expiredSeconds);
         if(map.containsKey("ticket")){
             Cookie cookie =new Cookie("ticket",map.get("ticket").toString());
-            cookie.setPath(cpntextPath);
+            cookie.setPath(contextPath);
             cookie.setMaxAge(expiredSeconds);
             response.addCookie(cookie);
             return "redirect:/index";
@@ -149,6 +149,7 @@ public class LoginController implements CommunityConstant {
     @RequestMapping(path = "/logout",method = RequestMethod.GET)
     public String logout(@CookieValue("ticket") String ticket){
         userService.logout(ticket);
+        SecurityContextHolder.clearContext();
         return "redirect:/login";
     }
 

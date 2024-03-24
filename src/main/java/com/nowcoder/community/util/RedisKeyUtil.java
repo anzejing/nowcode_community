@@ -30,7 +30,7 @@ public class RedisKeyUtil {
         return PREFIX_FOLLOWER + SPLIT + entityType + SPLIT + entityId;
     }
     //登录验证码
-    public static String getKapthaKey(String owner){
+    public static String getKaptchaKey(String owner){
         return PREFIX_KAPTCHA+SPLIT+owner;
     }
 

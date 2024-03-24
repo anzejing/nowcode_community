@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/comment")
-public class CommentControoler implements CommunityConstant {
+public class CommentController implements CommunityConstant {
     @Autowired
     private CommentService commentService;
     @Autowired
@@ -30,6 +29,7 @@ public class CommentControoler implements CommunityConstant {
     DiscussPostService discussPostService;
     @RequestMapping(path = "add/{discussPostId}",method = RequestMethod.POST)
     public String addComment(@PathVariable("discussPostId") int discussPostId, Comment comment){
+        System.out.println("CommentPost");
         comment.setUserId((hostHolder.getUser().getId()));
         comment.setStatus(0);
         comment.setCreateTime(new Date());
